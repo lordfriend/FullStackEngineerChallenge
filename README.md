@@ -11,7 +11,7 @@ Design a web application that allows employees to submit feedback toward each ot
 * Add/update/view performance reviews
 * Assign employees to participate in another employee's performance review
 
-### Employee view
+### EmployeeEntity view
 * List of performance reviews requiring feedback
 * Submit feedback
 

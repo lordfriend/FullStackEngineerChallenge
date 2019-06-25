@@ -1,0 +1,57 @@
+
+<form [formGroup]="reviewForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>{{isEdit ? 'Edit' : 'Add' }} Review</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Performance" formControlName="performance">
+            <mat-error *ngIf="reviewForm.controls['performance'].hasError('required')">
+              Performance is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <div class="row">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Feedback" formControlName="feedback"></textarea>
+            <mat-error *ngIf="reviewForm.controls['feedback'].hasError('required')">
+              Feedback is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <div class="row">
+          <mat-form-field class="full-width">
+            <mat-chip-list #chipList aria-label="review selection">
+              <mat-chip
+                *ngFor="let employee of review.reviewed_by"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(employee)">
+                {{employee.name}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input
+                placeholder="Assign Reviewer..."
+                #employeeInput
+                [formControl]="employeeCtrl"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
+                {{employee.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
