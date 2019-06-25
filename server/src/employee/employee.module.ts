@@ -7,7 +7,8 @@ import { EmployeeService } from './employee.service';
  */
 @Module({
     providers: [EmployeeService],
-    controllers: [EmployeeController]
+    controllers: [EmployeeController],
+    exports: [EmployeeService]
 })
 export class EmployeeModule {
 

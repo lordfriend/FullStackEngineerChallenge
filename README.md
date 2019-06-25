@@ -42,5 +42,16 @@ The service layer handles data access between a controller and a persistent stor
 ### Database
 At the first I use an ORM library called TypeORM which can use Typescript as a tool for Object Mapping. but then I have some trouble with the configuration
  which always fail when working with many-to-many relationship. document doesn't give any hints. TO save time I fallback to a legacy solution I've written before
- This use the driver directly with raw sql statement.
+ This use the driver directly with raw sql statement. This also results in the requirements of Postgres
 
+### Client
+
+The client is built with Angular and Angular Material. It's very simple and intuitive. The code is self-explanation.
+
+## Assumption and Limitations
+
+- Login/Logout is faked. It's only a lot of configuration in the NestJs and Passport. I choose not to implement them due to time limit and
+ unimportant.
+- Route guard are not implemented due to fake login
+- API guard are not implemented due to fake login
+- Password are not encrypted stored, in a real world application. the password should be properly encrypted with salt to protect user's privacy.
