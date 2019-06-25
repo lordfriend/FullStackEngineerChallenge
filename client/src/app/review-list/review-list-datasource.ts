@@ -36,7 +36,7 @@ export class ReviewListDataSource extends DataSource<Review> {
     // stream for the data-table to consume.
     const dataMutations = [
       this._refreshSubject.pipe(switchMap(() => {
-        return this._adminViewService.getReviewsOfEmployee(this._employeeId)
+        return this._adminViewService.getReviewsOfEmployee(this._employeeId, this._status)
           .pipe(tap(reviews => {
             this.data = reviews;
           }));

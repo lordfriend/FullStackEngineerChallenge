@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/index';
 import { map } from 'rxjs/internal/operators';
@@ -29,8 +29,8 @@ export class AdminViewService {
       .pipe(map(res => res.data));
   }
 
-  getReviewsOfEmployee(employeeId: number): Observable<Review[]> {
-    return this._httpClient.get<any>(`${this._baesUrl}/review/employee/${employeeId}`)
+  getReviewsOfEmployee(employeeId: number, status: number = -1): Observable<Review[]> {
+    return this._httpClient.get<any>(`${this._baesUrl}/review/employee/${employeeId}?status=${status}`)
       .pipe(map(res => res.data));
   }
 

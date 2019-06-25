@@ -1,5 +1,5 @@
 
-<div class="review-action-buttons">
+<div class="review-action-buttons" *ngIf="mode === 'admin'">
   <button mat-raised-button (click)="addReview()">Add Review</button>
 </div>
 

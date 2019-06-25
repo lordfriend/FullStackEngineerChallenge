@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ReviewService } from './review.service';
-import { Review } from './review.entity';
+import { Review, ReviewStatus } from './review.entity';
 
 @Controller('review')
 export class ReviewController {
@@ -51,6 +51,13 @@ export class ReviewController {
 
     @Put(':id')
     update(@Body('review') reviewObj: Review): Promise<{data: {}, status: number}> {
+        if (!reviewObj.performance) {
+            reviewObj.status = ReviewStatus.NEED_REVIEW;
+        } else if (!reviewObj.feedback) {
+            reviewObj.status = ReviewStatus.NEED_FEEDBACK;
+        } else {
+            reviewObj.status = ReviewStatus.DONE;
+        }
         return this._reviewService.update(reviewObj as Review)
             .then(() => {
                 return {

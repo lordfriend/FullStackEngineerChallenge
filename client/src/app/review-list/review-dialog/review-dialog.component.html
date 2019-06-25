@@ -7,7 +7,7 @@
     <mat-card-content>
       <div class="row">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Performance" formControlName="performance">
+            <input matInput placeholder="Performance" formControlName="performance" [readonly]="mode !== 'admin'">
             <mat-error *ngIf="reviewForm.controls['performance'].hasError('required')">
               Performance is <strong>required</strong>
             </mat-error>
@@ -26,8 +26,8 @@
             <mat-chip-list #chipList aria-label="review selection">
               <mat-chip
                 *ngFor="let employee of review.reviewed_by"
-                [selectable]="selectable"
-                [removable]="removable"
+                [selectable]="mode === 'admin'"
+                [removable]="mode === 'admin'"
                 (removed)="remove(employee)">
                 {{employee.name}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -35,6 +35,7 @@
               <input
                 placeholder="Assign Reviewer..."
                 #employeeInput
+                [disabled]="mode !== 'admin'"
                 [formControl]="employeeCtrl"
                 [matAutocomplete]="auto"
                 [matChipInputFor]="chipList"

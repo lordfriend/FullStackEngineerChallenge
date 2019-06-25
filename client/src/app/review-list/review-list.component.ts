@@ -25,6 +25,9 @@ export class ReviewListComponent implements AfterViewInit, OnInit {
   @Input()
   status: number;
 
+  @Input()
+  mode = 'admin';
+
   constructor(private _adminViewService: AdminViewService,
               public dialog: MatDialog) {
   }
@@ -33,7 +36,10 @@ export class ReviewListComponent implements AfterViewInit, OnInit {
   addReview() {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '750px',
-      data: {employee_id: this.employeeId}
+      data: {
+        review: {employee_id: this.employeeId},
+        mode: this.mode
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -45,7 +51,10 @@ export class ReviewListComponent implements AfterViewInit, OnInit {
   handleRowClick(row: Review): void {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '750px',
-      data: row
+      data: {
+        review:row,
+        mode: this.mode
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

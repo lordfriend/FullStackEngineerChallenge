@@ -47,14 +47,14 @@ export class ReviewService<T extends Entity> extends BaseDtoService<T> {
         return super._removeById_(id, this._tableName);
     }
 
-    update(review: Review): Promise<boolean> {
+    update(review: T): Promise<boolean> {
         // this API is not fully implemented.
         // to make it not complain errors. we simply remove what we cannot handle
-        review.reviewed_by = undefined;
-        return super._update_<Review>(review, this._tableName);
+        delete review['reviewed_by'];
+        return super._update_(review, this._tableName);
     }
 
-    private async _assignReviewers(client: PoolClient, review_id: number, reviewer_ids: number[]): Promise<boolean> {
+    private async _assignReviewers(client: PoolClient, review_id: number, reviewer_ids: number[]): Promise<void> {
         for(let reviewer_id of reviewer_ids) {
             await client.query(
                 'INSERT INTO review_employee(employee_id, review_id) VALUES($1, $2)',

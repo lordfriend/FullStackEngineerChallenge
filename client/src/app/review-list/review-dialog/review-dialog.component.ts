@@ -29,12 +29,11 @@ export class ReviewDialogComponent implements OnInit {
   });
 
   review: Review;
+  mode: string;
 
   employees: Employee[] = [];
 
   isEdit = false;
-  selectable = true;
-  removable = true;
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   employeeCtrl = new FormControl();
@@ -45,9 +44,10 @@ export class ReviewDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               public dialogRef: MatDialogRef<ReviewDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Review,
+              @Inject(MAT_DIALOG_DATA) public data: {review: Review, mode: string},
               private _adminViewService: AdminViewService) {
-    this.review = data;
+    this.review = data.review;
+    this.mode = data.mode;
     if (Number.isInteger(this.review.id)) {
       this.isEdit = true;
     }
