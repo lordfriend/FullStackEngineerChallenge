@@ -1,12 +1,12 @@
 version: "3"
 
 services:
-  mysql:
-    image: mysql:5
+  posgres:
+    image: postgres
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: paypay_challenge
     ports:
-      - "3306:3306"
-    restart: always
+      - "5432:5432"

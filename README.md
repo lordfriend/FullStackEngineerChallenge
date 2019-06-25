@@ -1,39 +1,46 @@
 # Full Stack Developer Challenge
-This is an interview challengs. Please feel free to fork. Pull Requests will be ignored.
 
-## Requirements
-Design a web application that allows employees to submit feedback toward each other's performance review.
+The original description can be found [HERE](original_description.md)
 
-*Partial solutions are acceptable.*  It is not necessary to submit a complete solution that implements every requirement.
+## Design philosophy
 
-### Admin view
-* Add/remove/update/view employees
-* Add/update/view performance reviews
-* Assign employees to participate in another employee's performance review
+This project is a very typical CRUD applications which contains different roles of users. each role has different but some shared operations
+ need to be implemented.
 
-### EmployeeEntity view
-* List of performance reviews requiring feedback
-* Submit feedback
+I design a typical Client/Server application which the server only expose a set of HTTP RESTful API, and the client is a Single Page Application.
+This structure make it more easy to develop. Since we don't need some SEO or Social share, the server side rendering is not needed.
 
-## Challenge Scope
-* High level description of design and technologies used
-* Server side API (using a programming language and/or framework of your choice)
-  * Implementation of at least 3 API calls
-  * Most full stack web developers at PayPay currently use Java, Ruby on Rails, or Node.js on the server(with MySQL for the database), but feel free to use other tech if you prefer
-* Web app
-  * Implementation of 2-5 web pages using a modern web framework (e.g. React or Angular) that talks to server side
-    * This should integrate with your API, but it's fine to use static responses for some of it 
-* Document all assumptions made
-* Complete solutions aren't required, but what you do submit needs to run.
+For backend. I pick NodeJs along with NestJs to build the backend HTTP Restful API service. The choice is base on the the time limit,
+ scope of complexity and the technology what I'm interested in.
 
-## How to complete this challenge
-* Fork this repo in github
-* Complete the design and code as defined to the best of your abilities
-* Place notes in your code to help with clarity where appropriate. Make it readable enough to present to the PayPay interview team
-* Complete your work in your own github repo and send the results to us and/or present them during your interview
+NestJs is a emerging NodeJs web application framework which heavily inspired by Angular. It's the first time I tried this framework and its
+ design is perfectly serve the purpose of my design. It can leverage Typescript and DI for fast application development and still have a better
+ maintainable codebase.
 
-## What are we looking for? What does this prove?
-* Assumptions you make given limited requirements
-* Technology and design choices
-* Identify areas of your strengths
-* This is not a pass or fail test, this will serve as a common ground that we can deep dive together into specific issues
+The frontend, of course will be Angular which was my favorite frontend framework by now. Though I think in this projects any framework will be
+OK and have some very similar efficiency to develop.
+
+## Architecture
+
+![Architecture of Backend](backend.jpg)
+
+The backend is base on NestJs framework. The application organised by modules and I use the Repository Pattern to make 2 main modules for `employee`
+ and `review`. This two modules has its own domain class, service layer and controller.
+
+### Controller
+The controllers expose HTTP RESTful API using the very intuitive decorator provided by NestJs. for this project,
+ I have two controllers that serve the `/employee` and `/review` path. each contains basic CRUD operations.
+
+### Service layer
+The service layer handles data access between a controller and a persistent storage. For a large real world application, usually, a persistent
+ compatibility layer is beneath it to handle the database operation this also called DAO. but in this application I just merge it into one layer
+ to simplify the total code. If you look into the code you can find the service class extends an abstract class `BaseDtoService<T>`. this class implements an
+ interface `PersistentStorage<T>` which is a simple form of repository pattern. it defines a basic CRUD operations for each repository.
+ the abstract class implements some common operations and the lifecycle hooks.
+
+
+### Database
+At the first I use an ORM library called TypeORM which can use Typescript as a tool for Object Mapping. but then I have some trouble with the configuration
+ which always fail when working with many-to-many relationship. document doesn't give any hints. TO save time I fallback to a legacy solution I've written before
+ This use the driver directly with raw sql statement.
+
