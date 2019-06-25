@@ -2,6 +2,32 @@
 
 The original description can be found [HERE](original_description.md)
 
+## How to run this project
+
+- Using docker-compose
+
+You need have docker-compose and docker installed in your Operating System. Make sure your ports `4200`, `3000`, `5432` are not bound
+
+```
+$ docker-compose up
+```
+
+- Run directly
+
+yarn, nodejs > 10, npm are assumed in your shell. postgres are assumed in your system
+
+```
+$ cd server
+$ yarn install
+$ npm run start:dev
+$ cd ../client
+$ npm install -g @angular/cli@8.0.3
+$ npm install
+$ ng serve
+```
+
+Open browser acesss `http://localhost:4200` to see the application
+
 ## Design philosophy
 
 This project is a very typical CRUD applications which contains different roles of users. each role has different but some shared operations
@@ -55,3 +81,4 @@ The client is built with Angular and Angular Material. It's very simple and intu
 - Route guard are not implemented due to fake login
 - API guard are not implemented due to fake login
 - Password are not encrypted stored, in a real world application. the password should be properly encrypted with salt to protect user's privacy.
+- No paging feature is designed at the collection APIs.

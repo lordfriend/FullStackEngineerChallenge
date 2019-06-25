@@ -4,7 +4,7 @@ export const CREATE_TABLE_WITH_NUM_ID = {
     'id SERIAL PRIMARY KEY, ' +
     'name TEXT, ' +
     'level INTEGER, ' +
-    'password INTEGER ' +
+    'password TEXT ' +
     ')',
     REVIEW: 'CREATE TABLE IF NOT EXISTS review (' +
     'id SERIAL PRIMARY KEY, ' +

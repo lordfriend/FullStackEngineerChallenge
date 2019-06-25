@@ -1,4 +1,5 @@
 import { OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common';
+import { Employee, EmployeeLevel } from '../employee/employee.entity';
 import { Entity, PersistentStorage } from '../types';
 import { ConfigManager } from '../utils/config';
 import { CREATE_TABLE_WITH_NUM_ID } from './database-constant';
@@ -137,6 +138,8 @@ export abstract class BaseDtoService<T extends Entity> implements PersistentStor
             return Promise.resolve();
         }
         await this._createTables(config);
+        // for test purpose
+        await this._initAdminUser();
         return Promise.resolve();
     }
 
@@ -174,6 +177,14 @@ export abstract class BaseDtoService<T extends Entity> implements PersistentStor
         } finally {
             client.release();
         }
+    }
+
+    private async _initAdminUser(): Promise<any> {
+        const user = new Employee();
+        user.name = 'admin';
+        user.password = 'admin';
+        user.level = EmployeeLevel.ADMIN;
+        await this._add_<Employee>(user, 'employee');
     }
 
 }

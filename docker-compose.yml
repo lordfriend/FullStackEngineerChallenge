@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: server
+    restart: always
+    environment:
+      DB_HOST: postgres
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "postgres"
+    command: "npm run start:dev"
+  frontend:
+    build:
+      context: client
+    ports:
+      - "4200:4200"
+    depends_on:
+      - "backend"
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: paypay_challenge
+    ports:
+      - "5432:5432"
