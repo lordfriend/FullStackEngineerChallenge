@@ -26,13 +26,13 @@ export class ReviewService<T extends Entity> extends BaseDtoService<T> {
                 [review.date, review.employee_id, review.performance, review.feedback, review.status]);
             await this._assignReviewers(client, rows[0].id, review.reviewed_by.map(e => e.id));
             await client.query('COMMIT');
+            return Promise.resolve({id: rows[0].id});
         } catch (e) {
             await client.query('ROLLBACK');
             throw e
         } finally {
             client.release();
         }
-        return super._add_(review, this._tableName);
     }
 
     findAll(): Promise<T[]> {

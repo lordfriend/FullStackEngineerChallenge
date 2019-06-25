@@ -19,7 +19,7 @@ export class AdminViewComponent implements AfterViewInit, OnInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'level'];
-  levelName = {1: 'Staff', 2: 'Admin'};
+  levelName = ['Staff', 'Admin'];
 
   constructor(private _adminViewService: AdminViewService,
               public dialog: MatDialog) {
